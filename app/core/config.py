@@ -15,12 +15,13 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
 
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    POSTGRES_HOST: str
-    SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = "postgresql://postgres:123456789@localhost/univcomm"
+    # POSTGRES_SERVER: str
+    # POSTGRES_USER: str
+    # POSTGRES_PASSWORD: str
+    # POSTGRES_DB: str
+    # POSTGRES_HOST: str
+    # SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn]
+    SQLALCHEMY_DATABASE_URI: str
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
