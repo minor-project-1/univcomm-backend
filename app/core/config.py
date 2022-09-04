@@ -15,10 +15,11 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
 
-    POSTGRES_SERVER: str = "postgresql"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "123456789"
-    POSTGRES_DB: str = "univcomm"
+    POSTGRES_SERVER: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    POSTGRES_HOST: str
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = "postgresql://postgres:123456789@localhost/univcomm"
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
@@ -36,6 +37,7 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = True
+        env_file = ".env"
 
 
 settings = Settings()

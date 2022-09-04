@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from app.db import init_db
-from app.models import user
 from app.api.api_v1.api import api_router
 from app.core.config import settings
+from app.db.init_db import Base
+from app.models import user
 
-user.Base.metadata.create_all(bind=init_db.engine)
+Base.metadata.create_all(bind=init_db.engine)
 
 app = FastAPI()
 
