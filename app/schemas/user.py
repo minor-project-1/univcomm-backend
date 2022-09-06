@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 
+from typing import List
+
 
 class UserOut(BaseModel):
     id: int
     email: str
-    roll_no: str
     first_name: str
     last_name: str
+    roll_no: str
+    user_type: int
+    is_active: int
 
     class Config:
         orm_mode = True
@@ -18,3 +22,6 @@ class UserIn(BaseModel):
     email: str
     password: str
     roll_no: str
+
+class UserListOut(BaseModel):
+    users: List[UserOut]

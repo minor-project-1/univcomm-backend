@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, List
 
 from sqlalchemy.orm import Session
 
@@ -11,8 +11,16 @@ from app.crud.base import CRUDBase
 from app.schemas.auth import Register
 
 class CRUDUser(CRUDBase):
+    def get_all_inactive_users(self, db: Session)-> List[User]:
+        return db.query(User).filter(User.is_active == 0).all()
+
+
     def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
         return db.query(User).filter(User.email == email).first()
+
+    def get_by_user_id(self, db: Session, *, user_id: int) -> Optional[User]:
+        return db.query(User).filter(User.id == user_id).first()
+
 
     def get_by_roll_number(self, db: Session, *, roll_number: str) -> Optional[User]:
         return db.query(User).filter(User.roll_no == roll_number).first()
@@ -57,5 +65,17 @@ class CRUDUser(CRUDBase):
     
     def is_active(self, user: User) -> int:
         return user.is_active
+
+    def update_user(self, db: Session, user: User) -> Optional[User]:
+        user.is_active = 1
+
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+        return user
+
+
+
 
 user = CRUDUser(User)
