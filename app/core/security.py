@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
-from typing import Any, Union
+from typing import Any, Union, Optional
 
-from jose import jwt
+from app.models.user import User
+
+from jose import jwt, JWTError
 from passlib.context import CryptContext
 
 from app.core.config import settings
@@ -22,7 +24,7 @@ def create_access_token(
             minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
         )
     to_encode = {"exp": expire, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET, algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -32,3 +34,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
+
+def verify_token(token: str) -> Optional[int]:
+    user_id = None
+    try:
+        payload = jwt.decode(token, settings.JWT_SECRET, algorithms=ALGORITHM)
+        user_id = payload.get("sub")
+        if user_id is None:
+            return None
+    except JWTError:
+        return None
+    return user_id

@@ -42,3 +42,12 @@ class AlumniData(Base):
     department = Column(String)
     batch = Column(Integer)
     user = relationship("User", backref=backref("alumni_data", uselist=False))
+
+class Question(Base):
+    __tablename__ = "questions"
+
+    id = Column(Integer, primary_key=True, index=True, nullable=False)
+    question = Column(String, nullable=False)
+
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user = relationship("User", backref=backref("questions", uselist=True))

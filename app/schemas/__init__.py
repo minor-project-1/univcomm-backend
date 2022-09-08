@@ -5,3 +5,5 @@ from .token import Token, TokenPayload
 from .auth import Login, Register
 
 from .user import UserIn, UserOut, UserListOut
+
+from .question import QuestionIn, QuestionOut
