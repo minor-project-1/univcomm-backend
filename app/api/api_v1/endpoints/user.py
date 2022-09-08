@@ -23,6 +23,9 @@ def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token
     question or error
     """
 
+    if token is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     user_id = security.verify_token(token)
 
     if user_id is None:
