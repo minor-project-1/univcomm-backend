@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from typing import List
+
 from app.schemas.user import UserOut
 
 class PostIn(BaseModel):
@@ -15,3 +17,6 @@ class PostOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class PostListOut(BaseModel):
+    posts: List[PostOut]

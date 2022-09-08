@@ -8,9 +8,12 @@ from app.core.security import verify_password, get_password_hash
 
 from app.crud.base import CRUDBase
 
-from app.schemas.question import QuestionIn
+from app.schemas.question import QuestionIn, QuestionOut
 
 class CRUDQuestion(CRUDBase):
+    def get_all(self, db: Session)-> List[Question]:
+        return db.query(Question).all()
+
     def create(self, db: Session, *, obj_in: QuestionIn, user_id: int) -> Question:
 
         db_obj = Question(

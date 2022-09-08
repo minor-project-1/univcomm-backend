@@ -9,6 +9,9 @@ from app.crud.base import CRUDBase
 from app.schemas.post import PostIn
 
 class CRUDPost(CRUDBase):
+    def get_all(self, db: Session)-> List[Post]:
+        return db.query(Post).all()
+
     def create(self, db: Session, *, obj_in: PostIn, user_id: int) -> Post:
 
         db_obj = Post(

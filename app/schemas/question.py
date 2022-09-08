@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from typing import List
+
 from app.schemas.user import UserOut
 
 class QuestionIn(BaseModel):
@@ -13,3 +15,6 @@ class QuestionOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class QuestionListOut(BaseModel):
+    questions: List[QuestionOut]
