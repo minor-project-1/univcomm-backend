@@ -12,7 +12,6 @@ from app.schemas import user
 
 router = APIRouter()
 
-
 @router.post("/ask", response_model= schemas.QuestionOut)
 def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
     """
@@ -35,3 +34,27 @@ def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token
     question = crud.question.create(db, obj_in = form_data, user_id = user_id)
     
     return question
+
+
+@router.post("/post", response_model= schemas.PostOut)
+def ask(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
+    """
+    Adds a post to the database for a particular user.
+    Arguments:
+    db: yields database session
+    Returns:
+    post or error
+    """
+
+    if token is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    user_id = security.verify_token(token)
+
+    if user_id is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+
+    post = crud.post.create(db, obj_in = form_data, user_id = user_id)
+    
+    return post
