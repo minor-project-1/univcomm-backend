@@ -134,6 +134,6 @@ async def activate_user(user_id: int, background_tasks: BackgroundTasks, db: Ses
 
     message = f'<strong>Congratulations {updated_user.first_name}! Your account has been verified. Now you can login to the app and start interacting.</strong>'
 
-    background_tasks.add_task(send_email, email = "21f1003147@student.onlinedegree.iitm.ac.in", message=message)
+    background_tasks.add_task(send_email, email = f'{updated_user.email}', message=message)
 
     return user
