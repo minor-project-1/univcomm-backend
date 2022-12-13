@@ -14,7 +14,7 @@ from app.models.user import Question, Post
 
 router = APIRouter()
 
-@router.post("/ask", response_model= schemas.QuestionOut)
+@router.post("/ask", response_model= schemas.QuestionOut, status_code=201)
 def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
     """
     Adds a question to the database for a particular user.
@@ -38,7 +38,7 @@ def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token
     return question
 
 
-@router.post("/post", response_model= schemas.PostOut)
+@router.post("/post", response_model= schemas.PostOut, status_code = 201)
 def ask(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
     """
     Adds a post to the database for a particular user.
@@ -61,7 +61,7 @@ def ask(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Un
     
     return post
 
-@router.get("/queries", response_model= schemas.QuestionListOut)
+@router.get("/queries", response_model= List[schemas.QuestionOut])
 def get_all_queries(db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> List[Question]:
     """
     Get all questions from database.
@@ -81,12 +81,9 @@ def get_all_queries(db: Session = Depends(deps.get_db), token: Union[str, None] 
     
     question_list = crud.question.get_all(db)
 
-    
-    return {
-        "questions": question_list,
-    }
+    return question_list
 
-@router.get("/threads", response_model= schemas.PostListOut)
+@router.get("/threads", response_model= List[schemas.PostOut])
 def get_all_threads(db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> List[Post]:
     """
     Get all posts from database.
@@ -105,7 +102,5 @@ def get_all_threads(db: Session = Depends(deps.get_db), token: Union[str, None] 
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     post_list = crud.post.get_all(db)
-    
-    return {
-        "posts": post_list,
-    }
+
+    return post_list

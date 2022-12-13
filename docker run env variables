@@ -1,0 +1,1 @@
+docker run -e SQLALCHEMY_DATABASE_URI=postgresql://eonebonbpohpcb:a6f6a88d189acb3328f2351787c7c6b7252a52bd2c1dd208b6cc2461ed8832ed@ec2-44-206-197-71.compute-1.amazonaws.com/d6gbqaarpqfm2a -e SENDGRID_API_KEY=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 -e JWT_SECRET=FoiHUwWhXTi2AGMNhhDgJ7K1vM1t90i2F8NtT6_ubh8  myimage

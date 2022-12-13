@@ -17,6 +17,3 @@ class PostOut(BaseModel):
 
     class Config:
         orm_mode = True
-
-class PostListOut(BaseModel):
-    posts: List[PostOut]

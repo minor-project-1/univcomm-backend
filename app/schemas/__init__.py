@@ -6,6 +6,6 @@ from .auth import Login, Register
 
 from .user import UserIn, UserOut, UserListOut
 
-from .question import QuestionIn, QuestionOut, QuestionListOut
+from .question import QuestionIn, QuestionOut
 
-from .post import PostIn, PostOut, PostListOut
+from .post import PostIn, PostOut

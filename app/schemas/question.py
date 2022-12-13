@@ -15,6 +15,3 @@ class QuestionOut(BaseModel):
 
     class Config:
         orm_mode = True
-
-class QuestionListOut(BaseModel):
-    questions: List[QuestionOut]
