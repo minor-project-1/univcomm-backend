@@ -95,7 +95,7 @@ def login(form_data: schemas.Login, db: Session = Depends(deps.get_db) ) -> Any:
 #     return user
 
 
-@router.get("/users", response_model=schemas.UserListOut)
+@router.get("/inactive_users", response_model=schemas.UserListOut)
 def get_all_inactive_users(db: Session = Depends(deps.get_db)) -> List[User]:
     """
     Returns all inactive users from the database.
@@ -105,10 +105,10 @@ def get_all_inactive_users(db: Session = Depends(deps.get_db)) -> List[User]:
     all users or []
     """
 
-    users = crud.user.get_all_inactive_users(db)
+    inactive_users = crud.user.get_all_inactive_users(db)
 
     return {
-        "users": users,
+        "users": inactive_users,
     }
 
 def send_email(email: str, message=""):

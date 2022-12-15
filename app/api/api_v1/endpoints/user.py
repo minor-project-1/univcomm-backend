@@ -10,7 +10,7 @@ from app.core import security
 from app.core.config import settings
 from app.schemas import user
 
-from app.models.user import Question, Post
+from app.models.user import Question, Post, User
 
 router = APIRouter()
 
@@ -31,6 +31,11 @@ def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token
 
     if user_id is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
+
+    user = crud.user.get_by_user_id(db, user_id = user_id)
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
     
 
     question = crud.question.create(db, obj_in = form_data, user_id = user_id)
@@ -55,6 +60,11 @@ def ask(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Un
 
     if user_id is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
+
+    user = crud.user.get_by_user_id(db, user_id = user_id)
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
     
 
     post = crud.post.create(db, obj_in = form_data, user_id = user_id)
