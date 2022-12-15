@@ -44,7 +44,7 @@ def ask(form_data: schemas.QuestionIn, db: Session = Depends(deps.get_db), token
 
 
 @router.post("/post", response_model= schemas.PostOut, status_code = 201)
-def ask(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
+def add_post(form_data: schemas.PostIn, db: Session = Depends(deps.get_db), token: Union[str, None] = Header(default=None) ) -> Any:
     """
     Adds a post to the database for a particular user.
     Arguments:
@@ -89,7 +89,7 @@ def get_all_queries(db: Session = Depends(deps.get_db), token: Union[str, None] 
     if user_id is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    question_list = crud.question.get_all(db)
+    question_list = crud.question.get_all(db, user_id)
 
     return question_list
 
@@ -111,6 +111,6 @@ def get_all_threads(db: Session = Depends(deps.get_db), token: Union[str, None] 
     if user_id is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    post_list = crud.post.get_all(db)
+    post_list = crud.post.get_all(db, user_id)
 
     return post_list

@@ -11,8 +11,8 @@ from app.crud.base import CRUDBase
 from app.schemas.question import QuestionIn, QuestionOut
 
 class CRUDQuestion(CRUDBase):
-    def get_all(self, db: Session)-> List[Question]:
-        return db.query(Question).all()
+    def get_all(self, db: Session, user_id: int)-> List[Question]:
+        return db.query(Question).filter(Question.user_id != user_id).all()
 
     def create(self, db: Session, *, obj_in: QuestionIn, user_id: int) -> Question:
 
