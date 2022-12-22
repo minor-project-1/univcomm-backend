@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Body, Depends, HTTPException, BackgroundTasks, Request
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -13,6 +13,8 @@ from app.models.user import User
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+
+from sse_starlette.sse import EventSourceResponse
 
 
 router = APIRouter()
@@ -126,11 +128,13 @@ def send_email(email: str, message=""):
     except Exception as e:
         print(e.message)
 
-@router.patch('/activate_user/{user_id}', response_model = schemas.UserOut)
-def activate_user(user_id: int, background_tasks: BackgroundTasks, db: Session = Depends(deps.get_db)) -> Any:
-    user = crud.user.get_by_user_id(db, user_id = user_id)
+
+@router.patch('/activate_user', response_model=schemas.UserOut)
+def activate_user(form_data: schemas.UserActivateIn, request: Request, background_tasks: BackgroundTasks, db: Session = Depends(deps.get_db)) -> Any:
+    user = crud.user.get_by_user_id(db, user_id = form_data.id)
 
     updated_user = crud.user.update_user(db, user)
+
 
     message = f'<strong>Congratulations {updated_user.first_name}! Your account has been verified. Now you can login to the app and start interacting.</strong>'
 

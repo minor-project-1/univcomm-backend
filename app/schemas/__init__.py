@@ -4,7 +4,7 @@ from .token import Token, TokenPayload
 # from .user import User, UserCreate, UserInDB, UserUpdate
 from .auth import Login, Register
 
-from .user import UserIn, UserOut, UserListOut
+from .user import UserIn, UserOut, UserListOut, UserActivateIn
 
 from .question import QuestionIn, QuestionOut
 

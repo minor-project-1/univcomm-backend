@@ -25,3 +25,6 @@ class UserIn(BaseModel):
 
 class UserListOut(BaseModel):
     users: List[UserOut]
+
+class UserActivateIn(BaseModel):
+    id: int
