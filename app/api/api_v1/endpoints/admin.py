@@ -127,7 +127,7 @@ def send_email(email: str, message=""):
         print(e.message)
 
 @router.patch('/activate_user/{user_id}', response_model = schemas.UserOut)
-async def activate_user(user_id: int, background_tasks: BackgroundTasks, db: Session = Depends(deps.get_db)) -> Any:
+def activate_user(user_id: int, background_tasks: BackgroundTasks, db: Session = Depends(deps.get_db)) -> Any:
     user = crud.user.get_by_user_id(db, user_id = user_id)
 
     updated_user = crud.user.update_user(db, user)
