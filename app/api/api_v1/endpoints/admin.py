@@ -14,8 +14,6 @@ from app.models.user import User
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-from sse_starlette.sse import EventSourceResponse
-
 
 router = APIRouter()
 
